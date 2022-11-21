@@ -29,19 +29,19 @@ const registrationSchema = new mongoose.Schema({
 
 const user = mongoose.model("user", registrationSchema);
 
-// app.post("/register", async (request, response) => {
-//   const { email, password } = request.body;
-//   const userLogin = await user.findOne({ email: email });
-//   if (userLogin) {
-//     response.status = 400;
-//     response.send("User already exists");
-//   } else {
-//     const hashedPassword = await bcrypt.hash(request.body.password, 10);
-//     const newuser = new user({ email: email, password: hashedPassword });
-//     newuser.save();
-//     response.send(email);
-//   }
-// });
+app.post("/register", async (request, response) => {
+  const { email, password } = request.body;
+  const userLogin = await user.findOne({ email: email });
+  if (userLogin) {
+    response.status = 400;
+    response.send("User already exists");
+  } else {
+    const hashedPassword = await bcrypt.hash(request.body.password, 10);
+    const newuser = new user({ email: email, password: hashedPassword });
+    newuser.save();
+    response.send(email);
+  }
+});
 
 const authenticateToken = (request, response, next) => {
   const token = request.cookies.access_token;
